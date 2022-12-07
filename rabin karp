@@ -1,0 +1,57 @@
+// Online C++ compiler to run C++ program online
+#include <bits/stdc++.h>
+#define ll long long
+#define p 111
+using namespace std;
+ll ch(string s1,int n)
+{
+    ll res;
+    for(int i=0;i<n;i++)
+    {
+        res+=(ll)(s1[i]*(ll)pow(p,i));
+    }
+    return res;
+}
+ll rh(string s2,ll oldhash,int newi,int oi,int pl)
+{
+    ll  newhash=oldhash-s2[oi];
+    newhash/=p;
+    newhash+=(ll)(s2[newi]*(ll)(pow(p,pl-1)));
+    return newhash;
+}
+bool check (string s1,string s2,int st1,int e1,int st2,int e2)
+{
+    if(e1-st1!=e2-st2)
+    return 0;
+    while(st1<=e1&& st2<=e2)
+    {
+        if(s1[st1]!=s2[st2])
+        {
+            return 0;
+        }
+        st1++;
+        st2++;
+    }
+    return 1;
+}
+ int main()
+{
+    string s1="aaaaabbababaabab";
+    string s2="bab";
+    ll s1hash=ch(s1,s2.length());
+    ll s2hash=ch(s2,s2.length());
+    for(int i=0;i<=s1.length()-s2.length();i++)
+    {
+        if(s1hash==s2hash && check(s1,s2,i,i+s2.length()-1,0,s2.length()-1))
+        {
+            cout<<i<<"yes"<<endl;
+            return 0;
+        }
+        if(i<s1.length()-s2.length())
+        {
+            s1hash=rh(s2,s1hash,i,i+s2.length(),s2.length());
+        }
+    }
+
+    return 0;
+}
